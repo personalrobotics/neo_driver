@@ -1,56 +1,31 @@
-#drive
-AutoInit: true
-cycleRate: 75
-numberOfMotors: 4
-maxDriveRate: 200000
-#can:
-#[TypeCan]
-#// 0 = Can Peak Dongle
-#// 1 = Can Peak USB 
-#// 2 = Can Card ESD
-can: 0
-devicePath: /dev/pcanepp24
+#Parameters for Relayboard
 
-#[CanCtrl]
-#// network of esd card (0 or 1)
-NetESD: 0 
-#// Baudrate values: 
-#0 = 1000 kbit/s
-#1 = 500 kbit/s
-#2 = 250 kbit/s
-#3 = 125 kbit/s
-#4 = 50 kbit/s
-#5 = 20 kbit/s
-#6 = 10 kbit/s
-BaudrateVal: 1
-GenericBufferLen: 2000
+#Device on which relayboard is attached
+ComPort: /dev/ttyUSB1
+relayboard_timeout: 2.0
+requestRate: 25
 
-drive0:
-  control_type: 2
-  joint_name: wheel_front_left_joint
-  EncIncrPerRevMot: 10000
-  VelMeasFrqHz: 1
-  GearRatio: 25
-  GearEfficiency: 0.7
-  BeltRatio: 1
-  Sign: 1.0
-  VelMaxEncIncrS: 300000
-  AccIncrS: 500000
-  DecIncrS: 500000
-  Homing: false
-  HomePos: 0
-  HomeVelRadS: 0.2
-  HomeEvent: 9
-  HomeDigIn: 0x0001
-  HomeTimeOut: 1000
-  VelPModeEncIncrS: 10
-  CurrentContLimit: 4.4
-  CurrentToTorque: 0.19
-  CANId: 2
+#Define the version of the protocol used by the Relayboard (the type of lcd interface)
+protocol_version: 2
+
+#relayboard
+hasIRSensors: 0
+hasKeyPad: 0
+hasLCDOut: 1
+
+#optional modules:
+hasMotorRight: 1
+hasMotorLeft: 1
+hasMotorRearRight: 1
+hasMotorRearLeft: 1
+hasIOBoard: 0
+hasUSBoard: 0
+hasRadarBoard: 0
+hasGyroBoard: 0
 
 drive1:
   control_type: 2
-  joint_name: wheel_front_right_joint
+  joint_name: wheel_front_left_joint
   EncIncrPerRevMot: 10000
   VelMeasFrqHz: 1
   GearRatio: 25
@@ -69,11 +44,12 @@ drive1:
   VelPModeEncIncrS: 10
   CurrentContLimit: 4.4
   CurrentToTorque: 0.19
-  CANId: 3
+  CANId: 2
+  quickFix: -1.
 
 drive2:
   control_type: 2
-  joint_name: wheel_back_left_joint
+  joint_name: wheel_front_right_joint
   EncIncrPerRevMot: 10000
   VelMeasFrqHz: 1
   GearRatio: 25
@@ -92,11 +68,12 @@ drive2:
   VelPModeEncIncrS: 10
   CurrentContLimit: 4.4
   CurrentToTorque: 0.19
-  CANId: 4
+  CANId: 1
+  quickFix: -1.
 
 drive3:
   control_type: 2
-  joint_name: wheel_back_right_joint
+  joint_name: wheel_back_left_joint
   EncIncrPerRevMot: 10000
   VelMeasFrqHz: 1
   GearRatio: 25
@@ -116,3 +93,28 @@ drive3:
   CurrentContLimit: 4.4
   CurrentToTorque: 0.19
   CANId: 5
+  quickFix: -1.
+
+drive4:
+  control_type: 2
+  joint_name: wheel_back_right_joint
+  EncIncrPerRevMot: 10000
+  VelMeasFrqHz: 1
+  GearRatio: 25
+  GearEfficiency: 0.7
+  BeltRatio: 1
+  Sign: 1.0
+  VelMaxEncIncrS: 300000
+  AccIncrS: 500000
+  DecIncrS: 500000
+  Homing: false
+  HomePos: 0
+  HomeVelRadS: 0.2
+  HomeEvent: 9
+  HomeDigIn: 0x0001
+  HomeTimeOut: 1000
+  VelPModeEncIncrS: 10
+  CurrentContLimit: 4.4
+  CurrentToTorque: 0.19
+  CANId: 4
+  quickFix: -1.

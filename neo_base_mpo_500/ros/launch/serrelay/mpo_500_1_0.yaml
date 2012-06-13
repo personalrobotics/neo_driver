@@ -1,4 +1,5 @@
 #Parameters for Relayboard
+terminateSRBDriveAtStart: true
 
 #Device on which relayboard is attached
 ComPort: /dev/ttyUSB1
@@ -6,7 +7,7 @@ relayboard_timeout: 2.0
 requestRate: 25
 
 #Define the version of the protocol used by the Relayboard (the type of lcd interface)
-protocol_version: 1
+protocol_version: 2
 
 #relayboard
 hasIRSensors: 0
