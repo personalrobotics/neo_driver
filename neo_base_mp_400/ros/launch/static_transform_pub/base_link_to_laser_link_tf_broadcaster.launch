@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="tf" type="static_transform_publisher" name="laser_link_tfS" args="0.241 0 0.11 0 0 0 base_link laserfront  10" />
+
+</launch>

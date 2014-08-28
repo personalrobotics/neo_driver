@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 2.4.6)
+find_package(catkin REQUIRED)
+
+project(neo_platformctrl_meca)
+
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/common/include)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ros/include)
+
+
+add_library(${PROJECT_NAME} common/src/Mecanum4WKinematics.cpp)
+
+add_executable(${PROJECT_NAME}_node ros/src/neo_platformctrl_node.cpp)
+target_link_libraries(${PROJECT_NAME}_node ${PROJECT_NAME})
+include_directories(${PROJECT_NAME}_node thread)
+
+//FLAGS
+set_target_properties(cflags="-I${prefix}/common/include -I${prefix}/ros/include" lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib -lneo_platformctrl_mecanum")
