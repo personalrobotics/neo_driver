@@ -1,6 +1,6 @@
 <package>
   <name>neo_platformctrl_mecanum</name>
-  <version>1.2.4</version>
+  <version>0.1.0</version>
   <description>transformation Node for neobotix robots with omnidirectional drive</description>
 
   <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
