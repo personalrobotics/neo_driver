@@ -6,7 +6,7 @@ project(neo_relayboard)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   ##cob_utilities
-  pr2_msgs
+  ##pr2_msgs
   roscpp
   rospy
   std_msgs
