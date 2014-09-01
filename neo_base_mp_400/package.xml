@@ -1,13 +1,10 @@
 <package>
   <name>neo_base_mp_400</name>
-  <version>1.2.4</version>
-  <description>
-    Base for MP_400
-  </description>
-  <maintainer email="test@test.com">Neobotix GmbH</maintainer>
+  <version>0.1.0</version>
+  <description>launchfiles for MP_400</description>
+    <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
   <license>BSD</license>
-
-  <url>http://</url>
+  <url type="website">http://www.neobotix-robots.com</url>
   <author>Jan-Niklas Nieland</author>
 
   <buildtool_depend>catkin</buildtool_depend>

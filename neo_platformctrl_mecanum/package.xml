@@ -1,13 +1,11 @@
 <package>
   <name>neo_platformctrl_mecanum</name>
   <version>1.2.4</version>
-  <description>
-    neo_platformctrl_mecanum
-  </description>
-  <maintainer email="test@test.com">Neobotix GmbH</maintainer>
-  <license>BSD</license>
+  <description>transformation Node for neobotix robots with omnidirectional drive</description>
 
-  <url>http://</url>
+  <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
+  <license>BSD</license>
+  <url type="website">http://www.neobotix-robots.com</url>
   <author>Jan-Niklas Nieland</author>
 
   <buildtool_depend>catkin</buildtool_depend>

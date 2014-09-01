@@ -1,13 +1,11 @@
 <package>
   <name>neo_platformctrl_diff</name>
-  <version>1.2.4</version>
-  <description>
-    neo_platformctrl_diff
-  </description>
-  <maintainer email="test@test.com">Neobotix GmbH</maintainer>
-  <license>BSD</license>
+  <version>0.1.0</version>
+  <description>transformation node for neobotix robots woth differential drive</description>
 
-  <url>http://</url>
+  <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
+  <license>BSD</license>
+  <url type="website">http://www.neobotix-robots.com</url>
   <author>Jan-Niklas Nieland</author>
 
   <buildtool_depend>catkin</buildtool_depend>

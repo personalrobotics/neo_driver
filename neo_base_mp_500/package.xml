@@ -1,13 +1,12 @@
 <package>
   <name>neo_base_mp_500</name>
-  <version>1.2.4</version>
+  <version>0.1.0</version>
   <description>
-    Base for MP_500
+    launchfiles for MP_500
   </description>
-  <maintainer email="test@test.com">Neobotix GmbH</maintainer>
+  <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
   <license>BSD</license>
-
-  <url>http://</url>
+  <url type="website">http://www.neobotix-robots.com</url>
   <author>Jan-Niklas Nieland</author>
 
   <buildtool_depend>catkin</buildtool_depend>
