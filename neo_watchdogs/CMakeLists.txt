@@ -7,7 +7,6 @@ project(neo_watchdogs)
 find_package(catkin REQUIRED COMPONENTS
   neo_relayboard
   roscpp
-  ##pr2_msgs
   move_base_msgs
 )
 
@@ -86,7 +85,6 @@ catkin_package(
   CATKIN_DEPENDS 
   neo_relayboard 
   roscpp
-  pr2_msgs
   move_base_msgs
 #  DEPENDS system_lib
 )

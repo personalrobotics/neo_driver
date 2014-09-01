@@ -5,8 +5,6 @@ project(neo_relayboard)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  ##cob_utilities
-  ##pr2_msgs
   roscpp
   rospy
   std_msgs
