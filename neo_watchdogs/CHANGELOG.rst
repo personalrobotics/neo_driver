@@ -2,8 +2,8 @@
 Changelog for package neo_watchdogs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.1 (2014-09-01)
+------------------
 * package.xml files version, license and maintainer checked
 * new version using catkin and replacing old version
 * replaced neo_msgs with cob_relayboard

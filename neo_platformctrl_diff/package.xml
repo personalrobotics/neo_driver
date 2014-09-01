@@ -1,6 +1,6 @@
 <package>
   <name>neo_platformctrl_diff</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>transformation node for neobotix robots woth differential drive</description>
 
   <maintainer email="nieland@neobotix.de">Neobotix</maintainer>

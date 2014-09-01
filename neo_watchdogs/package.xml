@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>neo_watchdogs</name>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <description>The neo_watchdogs package</description>
 
   <maintainer email="nieland@neobotix.de">Neobotix</maintainer>
