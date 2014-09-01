@@ -1,0 +1,14 @@
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package neo_platformctrl_diff
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Forthcoming
+-----------
+* package.xml files version, license and maintainer checked
+* new version using catkin and replacing old version
+* platformctrl: standardized cmd msgs
+* fused serrial packages in neo_serrelayboard
+* seperating src and config packages
+* added watchdog nodes for undervoltage / temperature / error stop
+* initial commit
+* Contributors: Osiron007, Timo Hackel
