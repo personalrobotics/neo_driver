@@ -2,8 +2,8 @@
 Changelog for package neo_relayboard
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2014-09-02)
+------------------
 * pr2_msgs and neo_relayboard messages removed or moved to new package neo_msgs
 * Contributors: Osiron007
 

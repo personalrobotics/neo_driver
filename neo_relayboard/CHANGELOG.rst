@@ -2,8 +2,8 @@
 Changelog for package neo_relayboard
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2014-09-02)
+------------------
 * fixed .temperature to .data for std_msgs::Int16
 * pr2_msgs and neo_relayboard messages removed or moved to new package neo_msgs
 * pr2 dep removed

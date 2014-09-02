@@ -2,8 +2,8 @@
 Changelog for package neo_watchdogs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.1.2 (2014-09-02)
+------------------
 * fixed .temperature to .data for std_msgs::Int16
 * --> removed
 * neo_watchdogs updated message files from pr2_msgs to neo_msgs

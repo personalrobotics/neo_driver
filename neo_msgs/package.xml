@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>neo_msgs</name>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <description>
 	This package contains copies of former pr2_msgs (ported to ROS indigo) 
 	as well as new messages for neobotix robots.
