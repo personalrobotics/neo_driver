@@ -2,6 +2,9 @@
 Changelog for package neo_platformctrl_diff
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.1.1 (2014-09-01)
 ------------------
 * package.xml files version, license and maintainer checked
