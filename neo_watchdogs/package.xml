@@ -10,7 +10,7 @@
   <author>Jan-Niklas Nieland</author>  
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>neo_msgs</build_depen->
+  <build_depend>neo_msgs</build_depend>
   <build_depend>neo_relayboard</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>move_base_msgs</build_depend>
