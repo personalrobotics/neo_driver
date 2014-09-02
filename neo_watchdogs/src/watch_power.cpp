@@ -34,7 +34,7 @@
 
 
 #include <ros/ros.h>
-#include <pr2_msgs/PowerState.h>
+#include <neo_msgs/PowerState.h>
 
 class WatchVoltsNode
 {
@@ -45,7 +45,7 @@ class WatchVoltsNode
 	ros::Subscriber subs_volts;
 	
 	int init();
-	void handlepower(const pr2_msgs::PowerState& ps);
+	void handlepower(const neo_msgs::PowerState& ps);
 	private:
 	ros::Duration ten_min;
 };
@@ -56,7 +56,7 @@ int WatchVoltsNode::init()
 	return 0;
 }
 
-void WatchVoltsNode::handlepower(const pr2_msgs::PowerState& ps)
+void WatchVoltsNode::handlepower(const neo_msgs::PowerState& ps)
 {
 	if(( ps.time_remaining) < ten_min)
 	{
