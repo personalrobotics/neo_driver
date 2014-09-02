@@ -56,9 +56,9 @@ int WatchTempNode::init()
 	return 0;
 }
 
-void WatchTempNode::handletemp(const std_msgs::Int16& es)
+void WatchTempNode::handletemp(const std_msgs::Int16& temperature)
 {
-	if(es.temperatur > 70)
+	if(temperature.data > 70)
 	{
 		ROS_ERROR("the temperatur is to high, halt the system, please");
 	}

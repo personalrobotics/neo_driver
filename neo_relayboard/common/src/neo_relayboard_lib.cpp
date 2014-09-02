@@ -399,7 +399,7 @@ void neo_relayboard_node::sendAnalogIn()
 	m_SerRelayBoard->getRelayBoardAnalogIn(analogIn);
 	//temperatur
 	std_msgs::Int16 temp;
-	temp.temperatur = analogIn[2];
+	temp.data = analogIn[2];
 	topicPub_temperatur.publish(temp);
 	//battery
 	neo_msgs::PowerState bat;
