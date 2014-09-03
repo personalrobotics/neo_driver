@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="tf" type="static_transform_publisher" name="laser_back_tfS" args="-0.45 0 0.37 0 3.141592654 3.141592654 base_link laserback  10" />
+	<!-- translatation from base to laser scanner in X Y Z and Rotation in Roll Pitch Yaw [rad] -->
+
+</launch>
