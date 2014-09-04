@@ -1,7 +1,7 @@
 #Parameters for Relayboard
 
 #Device on which relayboard is attached
-ComPort: /dev/ttyUSB0
+ComPort: /dev/ttyUSB1
 relayboard_timeout: 2.0
 requestRate: 25
 
