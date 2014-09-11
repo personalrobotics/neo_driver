@@ -7,7 +7,9 @@ project(neo_relayboard)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  sensor_msgs
   std_msgs
+  trajectory_msgs
   neo_msgs
 )
 
