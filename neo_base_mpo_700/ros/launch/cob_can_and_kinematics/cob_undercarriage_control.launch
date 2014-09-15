@@ -8,6 +8,6 @@
 	<param name="broadcast_tf" value="true"/>
 	<!-- undercarriage_control_node -->
 	<node pkg="cob_undercarriage_ctrl" type="cob_undercarriage_ctrl_node" name="undercarriage_ctrl_node" respawn="false" output="screen">
-		<remap from="command" to="/cmd_vel"/>
+		<remap from="command" to="/cmd_vel_smooth"/>
 	</node>
 </launch>
