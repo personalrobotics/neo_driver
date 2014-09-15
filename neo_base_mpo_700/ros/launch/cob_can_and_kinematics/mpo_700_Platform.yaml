@@ -16,8 +16,17 @@ DrivePrms:
    Wheel3NeutralPosition: 0.0
    Wheel4NeutralPosition: 0.0
 Geom:
+   DistWheels: 470            #[mm]
    RadiusWheel: 90            #[mm]
    DistSteerAxisToDriveWheelCenter: 22   #[mm]
+   Wheel1XPos: 235
+   Wheel1YPos: 185
+   Wheel2XPos: -235
+   Wheel2YPos: 185
+   Wheel3XPos: -235
+   Wheel3YPos: -185
+   Wheel4XPos: 235
+   Wheel4YPos: -185
 Config:
    Wheel1DriveMotor: 2         #0 = no motor; 1 = motor of the type neo; 2 = motor of type ham
    Wheel2DriveMotor: 2
@@ -28,4 +37,11 @@ Config:
    Wheel3SteerMotor: 2
    Wheel4SteerMotor: 2
    GenericBufferLen: 512         #Buffer lenght for can communication
-
+Thread:
+   ThrUCarrCycleTimeS: 0.02
+SteerCtrl:
+   Spring: 15.0
+   Damp: 2.75
+   VirtMass: 0.1
+   DPhiMax: 10.0   
+   DDPhiMax: 40.0
