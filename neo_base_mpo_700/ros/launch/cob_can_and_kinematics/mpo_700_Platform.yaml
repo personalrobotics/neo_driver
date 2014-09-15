@@ -3,6 +3,7 @@
 PublishEffort: false
 NumberOfMotors: 8
 NumberOfWheels: 4
+broadcast_tf: true
 
 DrivePrms:
    MaxDriveRate: 12.267         #Maximum Rotational Rate for the Drive Wheels [rad/s]
