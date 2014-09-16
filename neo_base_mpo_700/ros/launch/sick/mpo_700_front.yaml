@@ -1,6 +1,6 @@
 port: /dev/ttyUSB2
 baud: 500000
-inverted: false
+inverted: true
 frame_id: /laserfront
 scan_id: 8
 scan_intervals: [[-1.919862177, 1.919862177]] #[rad] these intervals are included to the scan 110°
