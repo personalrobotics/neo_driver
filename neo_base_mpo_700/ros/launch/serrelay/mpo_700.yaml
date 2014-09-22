@@ -7,7 +7,7 @@ requestRate: 25
 
 #Define the version of the protocol used by the Relayboard (the type of lcd interface)
 protocol_version: 2
-log: true
+log: false
 #relayboard
 hasIRSensors: 0
 hasKeyPad: 0

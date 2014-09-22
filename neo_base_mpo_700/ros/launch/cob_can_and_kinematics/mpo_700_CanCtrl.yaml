@@ -8,7 +8,16 @@ TypeCan:
    DevicePath: /dev/pcan0
 CanCtrl:
    NetESD: 0         #network of esd card (0 or 1)
-   BaudrateVal: 1000      #[kbit/s]
+#Baudrate Code
+#0 = 1000K
+#2 = 500K
+#4 = 250k
+#6 = 125k
+#9 = 50k
+#11 = 20k
+#13 = 10k
+#If you want to use NetESD type in the hole number e.g. 1000 for 1000k
+   BaudrateVal: 0
 CanOpenIDs:
    TxPDO1_W1Drive: 0x182
    TxPDO2_W1Drive: 0x282

@@ -3,4 +3,4 @@ baud: 500000
 inverted: true
 frame_id: /laserback
 scan_id: 9
-scan_intervals: [[-1.919862177, 1.919862177]] #[rad] these intervals are included to the scan 110°
+scan_intervals: [[-1.57, 1.57]] #[rad] these intervals are included to the scan 110°
