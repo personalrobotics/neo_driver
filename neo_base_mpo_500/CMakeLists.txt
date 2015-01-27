@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(neo_base_mpo_500)
 
 find_package(catkin REQUIRED COMPONENTS
-	neo_platformctrl_diff
+	neo_platformctrl_mecanum
 	neo_relayboard
 	cob_sick_s300
  )
