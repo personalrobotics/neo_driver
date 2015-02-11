@@ -3,5 +3,5 @@
 kinematics: DiffDrive2W
 wheelDiameter: 0.26
 robotLength: 0.823
-robotWidth: 0.592
+robotWidth: 0.542
 
