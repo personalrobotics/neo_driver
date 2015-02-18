@@ -1,6 +1,0 @@
-port: /dev/ttyUSB1
-baud: 500000
-inverted: true
-frame_id: /laserfront
-scan_id: 8
-scan_intervals: [[-1.4835298641952, 1.4835298641952]] #[rad] these intervals are included to the scan
