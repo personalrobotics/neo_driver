@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- parameters -->
+	<arg name="name" default="sick_s300" />
+	<arg name="scanner_type" default="$(env ROBOT)" /> 
+	<rosparam command="load" ns="$(arg name)" file="$(find neo_base_mp_700)/ros/launch/sick/$(arg scanner_type).yaml"/>
+	<!-- start node -->
+	<node pkg="cob_sick_s300" type="cob_sick_s300" name="$(arg name)" respawn="false" output="screen" >
+	</node>
+	<!--start filter node-->
+	<node pkg="cob_sick_s300" ns="$(arg name)" type="cob_scan_filter" name="$(arg name)_filter" respawn="false" output="screen" >
+	</node>
+
+
+</launch>
