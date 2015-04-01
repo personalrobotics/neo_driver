@@ -15,6 +15,7 @@ int main(int argc, char** argv)
 		node.requestBoardStatus();
 		node.sendEmergencyStopStates();
 		node.sendAnalogIn();
+		node.sendRelayBoardDigOut();
 		node.sendDriveStates();
 		node.sendGyroBoard();
 		node.sendRadarBoard();

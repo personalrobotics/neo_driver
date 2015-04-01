@@ -698,6 +698,10 @@ int SerRelayBoard::execHoming(int CanIdent)
 // RelayBoard
 //-----------------------------------------------
 
+int SerRelayBoard::getRelayBoardDigOut()
+{
+	return m_iCmdRelayBoard;
+}
 
 int SerRelayBoard::setRelayBoardDigOut(int iChannel, bool bOn)
 {
