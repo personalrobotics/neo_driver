@@ -185,7 +185,7 @@ int SerialIO::openIO()
 	if (Res == -1)
 	{
 		std::cerr << "tcgetattr of " << m_DeviceName << " failed: "
-			<< strerror(errno) << " (Error code " << errno << ")";
+			<< strerror(errno) << " (Error code " << errno << ")\n";
 
 		close(m_Device);
 		m_Device = -1;
@@ -222,7 +222,7 @@ int SerialIO::openIO()
 
 	// set baud rate
 	int iNewBaudrate = int(m_BaudRate * m_Multiplier + 0.5);
-	std::cerr << "Setting Baudrate to " << iNewBaudrate;
+	std::cerr << "Setting Baudrate to " << iNewBaudrate << "\n";
 
 	int iBaudrateCode = 0;
 	bool bBaudrateValid = getBaudrateCode(iNewBaudrate, &iBaudrateCode);
@@ -231,7 +231,7 @@ int SerialIO::openIO()
 	cfsetospeed(&m_tio, iBaudrateCode);
 
 	if( !bBaudrateValid ) {
-		std::cerr << "Baudrate code not available - setting baudrate directly";
+		std::cerr << "Baudrate code not available - setting baudrate directly\n";
 		struct serial_struct ss;
 		ioctl( m_Device, TIOCGSERIAL, &ss );
 		ss.flags |= ASYNC_SPD_CUST;
@@ -311,7 +311,7 @@ int SerialIO::openIO()
 	if (Res == -1)
 	{
 		std::cerr << "tcsetattr " << m_DeviceName << " failed: "
-			<< strerror(errno) << " (Error code " << errno << ")";
+			<< strerror(errno) << " (Error code " << errno << ")\n";
 
 		close(m_Device);
 		m_Device = -1;

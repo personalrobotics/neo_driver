@@ -115,7 +115,6 @@ public:
 	// Relayboard
 	int getRelayBoardDigIn();
 	int setRelayBoardDigOut(int iChannel, bool bOn);
-	int getRelayBoardDigOut();
 	int getRelayBoardAnalogIn(int* piAnalogIn);
 	void setEMStop();
 	void resetEMStop();
@@ -173,6 +172,8 @@ public:
 		TOO_LESS_BYTES_IN_QUEUE = 3,
 		NO_MESSAGES = 4, //for a long time, no message have been received, check com port!
 		CHECKSUM_ERROR = 5,
+		MSG_CONFIG = 6,
+		MSG_DATA = 7
 	};
 
 	enum RelBoardCmd
@@ -228,7 +229,8 @@ public:
 	{
 		LCD_20CHAR_TEXT,
 		LCD_60CHAR_TEXT,
-		RELAY_BOARD_1_4
+		RELAY_BOARD_1_4,
+		RELAY_BOARD_2
 	};
 
 protected:
@@ -352,14 +354,37 @@ protected:
 	 * -> 79 bytes
 	 */
 	void convDataToSendMsg(unsigned char cMsg[]);
+
+	void convDataToSendMsgRelayBoard2(unsigned char cMsg[]);
 	
 	/**
 	 *
 	 */
 	bool convRecMsgToData(unsigned char cMsg[]);
+
+	bool convRecMsgToDataRelayBoard2(unsigned char cMsg[]);
+
 private:
+
+	int m_iFoundMotors;
+	int m_iHomedMotors;
+	int m_iFoundExtHardware;
+	int m_iConfigured;
+	int m_iNumBytesRec;
+	bool initRelayBoard2(); //configure relayboard 2
+	int evalRxBufferRelayBoard2();
 	bool autoSendRequest;
 	double quickFix[4]; //TODO: quick and dirty odometry fix (rostopic echo /odom)
+
+	//data indicators
+	int m_ihasRelayData;
+	int m_ihas_LCD_DATA;
+	int m_iHasIOBoard;
+	int m_iHasUSBoard;
+	int m_iHasSpeakerData; 
+	int m_iChargeState;
+
+
 };
 
 
