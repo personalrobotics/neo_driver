@@ -45,6 +45,9 @@ class neo_relayboard_node
 		ros::Publisher topicPub_keypad;
 		ros::Publisher topicPub_IRSensor;
 		ros::Publisher topicPub_boardState;
+
+		ros::Publisher topicPub_SendRelayStates;
+		ros::Subscriber topicPub_SetRelayStates;
 		//optional topics:
 		enum Modules {
 			DRIVE1=0,
@@ -100,6 +103,8 @@ class neo_relayboard_node
     		//basic:
 		void sendEmergencyStopStates();
 		void sendAnalogIn();
+		void setRelayBoardDigOut(const neo_msgs::IOOut&);
+		void sendRelayBoardDigOut();
 		//IOBoard
 		void getNewLCDOutput(const neo_msgs::LCDOutput&); //output on a 20 char lcd display
 		void sendIOBoardDigIn();

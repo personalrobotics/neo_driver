@@ -115,6 +115,7 @@ public:
 	// Relayboard
 	int getRelayBoardDigIn();
 	int setRelayBoardDigOut(int iChannel, bool bOn);
+	int getRelayBoardDigOut();
 	int getRelayBoardAnalogIn(int* piAnalogIn);
 	void setEMStop();
 	void resetEMStop();

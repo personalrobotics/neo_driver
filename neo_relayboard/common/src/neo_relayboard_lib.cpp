@@ -44,6 +44,10 @@ int neo_relayboard_node::init()
 	n.getParam("hasMotorLeft",activeModule[DRIVE2]);
 	n.getParam("hasMotorRearRight",activeModule[DRIVE3]);
 	n.getParam("hasMotorRearLeft",activeModule[DRIVE4]);
+
+	topicSub_SetRelayStates = n.subscribe("/srb_set_relay_states",1,&neo_relayboard_node::setRelayBoardDigOut, this);
+	topicPub_SendRelayStates = n.advertise<std_msgs::Int16>("/srb_relay_states",1);
+
 	if(activeModule[DRIVE1] == 1 || activeModule[DRIVE2] == 1 || activeModule[DRIVE3] == 1 || activeModule[DRIVE4] == 1)
 	{
 		topicPub_drives = n.advertise<sensor_msgs::JointState>("/drive_states",1);
@@ -434,7 +438,20 @@ void neo_relayboard_node::sendAnalogIn()
 		topicPub_IRSensor.publish(irmsg);
 	}
 }
+void neo_relayboard_node::setRelayBoardDigOut(const neo_msgs::IOOut& setOut)
+{
+	if(!relayboard_available) return;
+	m_SerRelayBoard->setRelayBoardDigOut(setOut.channel, setOut.active);
+}
+ 
+void neo_relayboard_node::sendRelayBoardDigOut()
+{
+	if(!relayboard_available) return;
+ 	std_msgs::Int16 i;
+	i.data = m_SerRelayBoard->getRelayBoardDigOut();
+	topicPub_SendRelayStates.publish(i);
 
+}
 //////////////
 // motorCtrl
 
