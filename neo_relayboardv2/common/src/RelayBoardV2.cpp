@@ -114,7 +114,7 @@ int RelayBoardV2::evalRxBuffer()
 	int iNrBytesRead = 0;
 	unsigned char cDat[c_iSizeBuffer];
 	unsigned char cHeader[4] = {0x00, 0x00, 0x00, 0x00};
-	//ROS_INFO("While....");
+	//ROS_INFO("EVAL RX");
 	while(found_header == false)
 	{
 		if(m_SerIO.getSizeRXQueue() >= 1)
@@ -205,6 +205,7 @@ int RelayBoardV2::evalRxBuffer()
 	//received checksum
 	received_checksum = (cDat[BytesToRead - 1] << 8);
 	received_checksum += cDat[BytesToRead - 2];
+	//ROS_INFO("Fast Fertig Eval RX");
 	if(received_checksum != my_checksum)
 	{
 		//Wrong Checksum
@@ -245,7 +246,6 @@ int RelayBoardV2::init(const char* cdevice_name, int iactive_motors, int ihoming
 	m_SerIO.setDeviceName(cdevice_name);
 	m_SerIO.setBaudRate(RS422_BAUDRATE);
 	m_SerIO.openIO();
-	//ROS_INFO("Homing Motors: %d",ihoming_motors);
 	unsigned char cConfig_Data[33]; //4 Byte Header 3 Config Bytes 24 Byte Modulo 2 Byte Checksum
 	int iChkSum = 0;
 	int byteswritten = 0;
@@ -277,7 +277,7 @@ int RelayBoardV2::init(const char* cdevice_name, int iactive_motors, int ihoming
 	if((iactive_motors & 0x2) == 0x2) m_Motor[1].iMotorActive = 1;
 	else m_Motor[1].iMotorActive = 0;
 	if((iactive_motors & 0x1) == 0x1) m_Motor[0].iMotorActive = 1;
-	else m_Motor[0].iMotorActive = 0;	
+	else m_Motor[0].iMotorActive = 0;
 	//---------------Modulo for all Motors-------------------------------
 	//Motor1
 	cConfig_Data[7] = lModulo0 >> 16;
@@ -322,13 +322,14 @@ int RelayBoardV2::init(const char* cdevice_name, int iactive_motors, int ihoming
 			iNumDrives++;
 		}
 	}
+	//ROS_INFO("Number of Drives %i",iNumDrives);
 	m_iNumBytesRec += (iNumDrives*10); //10 Byte pro active Motor
 
-	if(m_iHasIOBoard == 1)
+	if((iext_hardware & 1) == 1) //IOBoard
 	{
 		m_iNumBytesRec += 20;
 	}
-	if(m_iHasUSBoard == 1)
+	if((iext_hardware & 2) == 1) //USBoard
 	{
 		m_iNumBytesRec += 26;
 	}
@@ -368,12 +369,12 @@ int RelayBoardV2::init(const char* cdevice_name, int iactive_motors, int ihoming
 		//Check received Data
 		if(m_iConfigured == 1)
 		{
-			//ROS_INFO("Configured");
+			ROS_INFO("Configured");
 			return 1;
 		}
 		else
 		{
-			//ROS_ERROR("FAILED: Invalid configuration");
+			ROS_ERROR("FAILED: Invalid configuration");
 			return 59;
 		}
 
@@ -675,7 +676,7 @@ void RelayBoardV2::getIOBoardAnalogIn(int* iAnalogIn)
 	int i;
 
 	m_Mutex.lock();
-	
+
 	for(i = 0; i < 8; i++)
 	{
 		iAnalogIn[i] = m_REC_MSG.iIOAnalog_In[i];
@@ -791,6 +792,7 @@ void RelayBoardV2::log_to_file(int direction, unsigned char cMsg[])
 //---------------------------------------------------------------------------------------------------------------------
 void RelayBoardV2::convRecMsgToData(unsigned char cMsg[])
 {
+	//ROS_INFO("Convert Rec to Data");
 	int data_in_message = 0;
 
 	m_Mutex.lock();
@@ -806,30 +808,25 @@ void RelayBoardV2::convRecMsgToData(unsigned char cMsg[])
 	iCnt += 2;
 	//Charging Current
 	m_REC_MSG.iCharging_Current = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
-	//std::cout << "Charging Current: " << m_iChargeCurrent << std::endl; //JNN
 	iCnt += 2;
 	//Charging State
 	m_REC_MSG.iCharging_State = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
-	//std::cout << "Charging State: " << m_iChargeState << std::endl; //JNN
 	iCnt += 2;
 	//Battery Voltage
 	m_REC_MSG.iBattery_Voltage = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
-	//std::cout << "Battery Voltage: " << m_iRelBoardBattVoltage << std::endl; //JNN
 	iCnt += 2;
 	//Keypad
 	m_REC_MSG.iKey_Pad = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
 	iCnt += 2;
 	//Temp Sensor
 	m_REC_MSG.iTemp_Sensor = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
-	//std::cout << "Relayboard Temp: " << m_iRelBoardTempSensor << std::endl; //JNN
 	iCnt += 2;
 
 	// IOBoard
-	if(m_iHasIOBoard)
+	if(m_iFoundExtHardware & 1 == 1)
 	{
 		m_REC_MSG.iIODig_In = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
 		iCnt += 2;
-
 		for(int i = 0; i < 8; i++)
 		{
 			m_REC_MSG.iIOAnalog_In[i] = (cMsg[iCnt + 1] << 8) | cMsg[iCnt];
@@ -840,7 +837,7 @@ void RelayBoardV2::convRecMsgToData(unsigned char cMsg[])
 		iCnt += 2;
 	}
 	// USBoard
-	if(m_iHasUSBoard)
+	if(m_iFoundExtHardware & 2 == 1)
 	{
 		for(int i = 0; i < 16; i++)
 		{
@@ -860,120 +857,96 @@ void RelayBoardV2::convRecMsgToData(unsigned char cMsg[])
 	{
 		//Enc Data
 		m_Motor[0].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M2 Enc: " << m_Motor[0].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[0].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M2 EncS: " << m_Motor[0].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[0].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M2 Status: " << m_Motor[0].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[1].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[1].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M3 Enc: " << m_Motor[1].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[1].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M3 EncS: " << m_Motor[1].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[1].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M3 Status: " << m_Motor[1].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[2].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[2].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M4 Enc: " << m_Motor[2].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[2].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M4 EncS: " << m_Motor[2].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[2].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M4 Status: " << m_Motor[2].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[3].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[3].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M5 Enc: " << m_Motor[3].lEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[3].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M5 EncS: " << m_Motor[3].lEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[3].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M5 Status: " << m_Motor[3].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[4].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[4].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M6 Enc: " << m_Motor[4].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[4].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M6 EncS: " << m_Motor[4].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[4].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M6 Status: " << m_Motor[4].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[5].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[5].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M7 Enc: " << m_Motor[5].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[5].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M7 EncS: " << m_Motor[5].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[5].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M7 Status: " << m_Motor[5].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[6].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[6].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M8 Enc: " << m_Motor[6].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[6].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M8 EncS: " << m_Motor[6].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[6].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M8 Status: " << m_Motor[6].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 	if(m_Motor[7].iMotorActive)
 	{
 		//Enc Data
 		m_Motor[7].lEnc = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M9 Enc: " << m_Motor[7].iPosMeasEnc << std::endl; //JNN
 		iCnt += 4;
 		//EncS Data
 		m_Motor[7].lEncS = (cMsg[iCnt+3] << 24) + (cMsg[iCnt+2] << 16) + (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M9 EncS: " << m_Motor[7].iPosMeasEncS << std::endl; //JNN
 		iCnt += 4;
 		//Motor Status
 		m_Motor[7].iStatus = (cMsg[iCnt+1] << 8) + cMsg[iCnt];
-		//std::cout << "M9 Status: " << m_Motor[7].iStatus << std::endl; //JNN
 		iCnt += 2;
 	}
 
@@ -1069,7 +1042,6 @@ int RelayBoardV2::convDataToSendMsg(unsigned char cMsg[])
 	//Relaystates
 	if(m_ihasRelayData)
 	{
-		//ROS_INFO("Relay Data: %d",m_S_MSG.iCmdRelayBoard);
 		cMsg[iCnt++] = m_S_MSG.iCmdRelayBoard >> 8;
 		cMsg[iCnt++] = m_S_MSG.iCmdRelayBoard;
 	}

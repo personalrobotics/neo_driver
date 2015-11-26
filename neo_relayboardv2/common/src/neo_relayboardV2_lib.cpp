@@ -266,21 +266,42 @@ int neo_relayboardV2_node::init()
 void neo_relayboardV2_node::HandleCommunication() 
 {
 	if(!m_iRelayBoard_available) return;
-
 	int send_return = 0;
-	int receive_return = 101;	
-	//ROS_INFO("Sending Data ....");
+	int receive_return = 101;
+	static int last_error = 0;	
 	while(receive_return == 101)
 	{ 
-		//ROS_INFO("Sending Data ....");
+		//ROS_INFO("Sending");
 		send_return = m_SerRelayBoard->sendDataToRelayBoard();
 		receive_return = m_SerRelayBoard->evalRxBuffer();
-		//ROS_INFO("Ret: %i", ret);
-		if(receive_return == 101)
+//ROS_INFO("Ret: %i", ret);
+		if(receive_return == last_error)
 		{
-			ROS_ERROR("No Answer from RelayBoard");
+			//Do not show message again
 		}
-		//else ROS_INFO("All OK");
+		else if(receive_return == 0) //ok
+		{
+			ROS_INFO("communicating with RelayBoard");
+		}		
+		else if(receive_return == 101) //No Answer => resend
+		{
+			ROS_ERROR("No answer from RelayBoard ... ");
+		}
+		else if(receive_return == 97)
+		{
+			ROS_ERROR("Wrong Checksum");
+		}
+		else if(receive_return == 99)
+		{
+			ROS_ERROR("No valid Message header found");
+		}
+		else
+		{
+			//Unknown error
+			ROS_ERROR("Unknown error");
+		}
+		last_error = receive_return;
+		
 	}
 }
 
@@ -444,6 +465,7 @@ void neo_relayboardV2_node::stopCharging(const std_msgs::Empty& empty)
 //--------------------------Motor Ctrl-------------------------------------------------------------------------
 void neo_relayboardV2_node::PublishJointStates()
 {
+	ROS_INFO("PUB_JOINT_STATES");
 	if(!m_iRelayBoard_available) return;
 	long lEnc[8] = {0,0,0,0,0,0,0,0};
 	long lEncS[8] = {0,0,0,0,0,0,0,0};
@@ -475,13 +497,13 @@ void neo_relayboardV2_node::PublishJointStates()
 		state.velocity[i] = m_Drives[i].iSign * m_Drives[i].convIncrPerPeriodToRadS((float)lEncS[i]);	 
 	}
 	topicPub_drives.publish(state);
-
+	ROS_INFO("ENDE PUB_JOINT_STATES");
 }
 
 void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::JointTrajectory jt)
 {
 	if(!m_iRelayBoard_available) return;
-	//ROS_INFO("1");
+	ROS_INFO("SUB NEW_VEL");
 	double dvelocity = 0.0;
 	trajectory_msgs::JointTrajectoryPoint point = jt.points[0];
 	//Check if Data for all Motors are avaliable
@@ -493,8 +515,10 @@ void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::Join
 	//else
 	//{
 		//set new velocities
+		ROS_INFO("1");
 		for(int i=0; i<m_imotor_count; i++)
 		{
+			ROS_INFO("2");
 			//convert velocities [rad/s] -> [incr/period]
 			//ROS_INFO("Motor: %d ; Vel: %d [rad]; Vel: %d [incr/period]",i,point.velocities[i],dvelocity);
 			dvelocity = m_Drives[i].iSign * m_Drives[i].convRadSToIncrPerPeriod(point.velocities[i]);
@@ -507,6 +531,7 @@ void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::Join
 			m_SerRelayBoard->setMotorDesiredEncS(i, (long)dvelocity);
 		}
 	//}
+	ROS_INFO("END_SUB_NEW_VEL");
 }
 //----------------------END Motor Ctrl-------------------------------------------------------------------------
 //-----------------------------USBoard-------------------------------------------------------------------------
@@ -567,10 +592,12 @@ void neo_relayboardV2_node::PublishIOBoardDigOut()
 void neo_relayboardV2_node::PublishIOBoardAnalogIn()
 {
 	if(!m_iRelayBoard_available || !m_ihasIOBoard) return;
-	int analogIn[8];
+	int *pointer = 0;
+	int analogin[8];
 	neo_msgs::IOAnalogIn in;
-	//m_SerRelayBoard->getIOBoardAnalogIn(&analogIn);
-	//for(int i=0;i <8; i++) in.input[i] = analogIn[i];
+	pointer = analogin;
+	m_SerRelayBoard->getIOBoardAnalogIn(pointer);
+	for(int i=0;i <8; i++) in.input[i] = pointer[i];
 	topicPub_analogIn.publish(in);
 }
 //-----------------------------END IOBoard---------------------------------------------------------------------
