@@ -47,7 +47,7 @@ class neo_relayboard_node
 		ros::Publisher topicPub_boardState;
 
 		ros::Publisher topicPub_SendRelayStates;
-		ros::Subscriber topicPub_SetRelayStates;
+		ros::Subscriber topicSub_SetRelayStates;
 		//optional topics:
 		enum Modules {
 			DRIVE1=0,
