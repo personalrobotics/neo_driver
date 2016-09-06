@@ -318,6 +318,16 @@ void neo_relayboardV2_node::PublishRelayBoardState()
 	m_SerRelayBoard->getRelayBoardState(&value);
 	state.data = value;
 	topicPub_RelayBoardState.publish(state);
+	
+	//handle RelayBoardV2 shutdown
+	//RelayBoardV2 will power off in < 30 sec
+	if((value & 0x400) != 0)
+	{
+		ROS_INFO("-----------SHUTDOWN Signal from RelayBoardV2----------");
+		ros::shutdown();
+		usleep(2000);
+		system("dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 \"org.freedesktop.login1.Manager.PowerOff\" boolean:true");
+	}
 }
 void neo_relayboardV2_node::PublishTemperature()
 {
