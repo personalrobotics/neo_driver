@@ -5,7 +5,7 @@ project(neo_watchdogs)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  neo_relayboard
+  neo_relayboardv2
   roscpp
   neo_msgs
   move_base_msgs
@@ -27,7 +27,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES neo_watchdogs
   CATKIN_DEPENDS 
-  neo_relayboard 
+  neo_relayboardv2
   roscpp
   move_base_msgs
   neo_msgs

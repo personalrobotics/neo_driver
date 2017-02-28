@@ -475,7 +475,7 @@ void neo_relayboardV2_node::stopCharging(const std_msgs::Empty& empty)
 //--------------------------Motor Ctrl-------------------------------------------------------------------------
 void neo_relayboardV2_node::PublishJointStates()
 {
-	ROS_INFO("PUB_JOINT_STATES");
+	ROS_DEBUG("PUB_JOINT_STATES");
 	if(!m_iRelayBoard_available) return;
 	long lEnc[8] = {0,0,0,0,0,0,0,0};
 	long lEncS[8] = {0,0,0,0,0,0,0,0};
@@ -507,13 +507,13 @@ void neo_relayboardV2_node::PublishJointStates()
 		state.velocity[i] = m_Drives[i].iSign * m_Drives[i].convIncrPerPeriodToRadS((float)lEncS[i]);	 
 	}
 	topicPub_drives.publish(state);
-	ROS_INFO("ENDE PUB_JOINT_STATES");
+	ROS_DEBUG("ENDE PUB_JOINT_STATES");
 }
 
 void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::JointTrajectory jt)
 {
 	if(!m_iRelayBoard_available) return;
-	ROS_INFO("SUB NEW_VEL");
+	ROS_DEBUG("SUB NEW_VEL");
 	double dvelocity = 0.0;
 	trajectory_msgs::JointTrajectoryPoint point = jt.points[0];
 	//Check if Data for all Motors are avaliable
@@ -525,10 +525,10 @@ void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::Join
 	//else
 	//{
 		//set new velocities
-		ROS_INFO("1");
+		ROS_DEBUG("1");
 		for(int i=0; i<m_imotor_count; i++)
 		{
-			ROS_INFO("2");
+			ROS_DEBUG("2");
 			//convert velocities [rad/s] -> [incr/period]
 			//ROS_INFO("Motor: %d ; Vel: %d [rad]; Vel: %d [incr/period]",i,point.velocities[i],dvelocity);
 			dvelocity = m_Drives[i].iSign * m_Drives[i].convRadSToIncrPerPeriod(point.velocities[i]);
@@ -541,7 +541,7 @@ void neo_relayboardV2_node::getNewVelocitiesFomTopic(const trajectory_msgs::Join
 			m_SerRelayBoard->setMotorDesiredEncS(i, (long)dvelocity);
 		}
 	//}
-	ROS_INFO("END_SUB_NEW_VEL");
+	ROS_DEBUG("END_SUB_NEW_VEL");
 }
 //----------------------END Motor Ctrl-------------------------------------------------------------------------
 //-----------------------------USBoard-------------------------------------------------------------------------

@@ -1,0 +1,18 @@
+#Parameters for locate_station_node
+# for more information visit http://wiki.ros.org/Robots/neobotix/neo_locate_station
+
+version: 2
+x_threshold: 0.035
+y_threshold: 0.035
+nr_of_tries: 5
+min_points: 5
+dist_pre_goal: 0.75
+dist_goal: 0.48
+approach_velocity: 0.05
+dist_points_min: 0.38
+dist_points_max: 0.41
+average_calculation_number: 40
+min_nr_found: 12
+visualize: true
+high_min: 0.06
+high_max: 0.09

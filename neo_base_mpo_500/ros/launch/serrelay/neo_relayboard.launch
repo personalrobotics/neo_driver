@@ -5,7 +5,7 @@
 	<rosparam command="load" ns="relayboard" file="$(find neo_base_mpo_500)/ros/launch/serrelay/$(env ROBOT).yaml"/>
 	
 	<!-- start relayboard node -->
-	<node pkg="neo_relayboard" type="neo_relayboard_node" ns="relayboard" name="relayboard_node" respawn="false" output="screen"/>
+	<node pkg="neo_relayboardv2" type="neo_relayboardV2_node" ns="relayboard" name="relayboardV2_node" respawn="false" output="screen"/>
 
 
 </launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch> 
+	<rosparam command="load" ns="locate_station_node" file="$(find neo_base_mpo_500)/ros/launch/locate_station/$(env ROBOT).yaml"/>
+	<node pkg="neo_locate_station" type="locate_station_node" name="locate_station_node" ns="locate_station_node" respawn="false" output="screen">
+	</node>
+</launch>
+
+
